@@ -1,0 +1,54 @@
+import java.util.Scanner;
+
+public class EmailUnico {
+    public static int numUniqueEmails(String[] emails) {
+        String[] emailsValidos = new String[emails.length];
+        int quantidadeUnicos = 0;
+        
+        for (String email : emails) {
+            int posicaoArroba = email.indexOf('@');
+            String local = email.substring(0, posicaoArroba);
+            String dominio = email.substring(posicaoArroba);
+            
+            if (local.contains("+")) {
+                local = local.substring(0, local.indexOf('+'));
+            }
+            
+            local = local.replace(".", "");
+            String emailLimpo = local + dominio;
+            
+            boolean duplicado = false;
+            for (int i = 0; i < quantidadeUnicos; i++) {
+                if (emailsValidos[i].equals(emailLimpo)) {
+                    duplicado = true;
+                    break;
+                }
+            }
+            
+            if (!duplicado) {
+                emailsValidos[quantidadeUnicos] = emailLimpo;
+                quantidadeUnicos++;
+            }
+        }
+        
+        return quantidadeUnicos;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.print("Quantos e-mails deseja digitar? ");
+        int quantidade = sc.nextInt();
+        sc.nextLine(); 
+        
+        String[] emails = new String[quantidade];
+        
+        for (int i = 0; i < quantidade; i++) {
+            System.out.print("Digite o e-mail " + (i + 1) + ": ");
+            emails[i] = sc.nextLine();
+        }
+        
+        int resultado = numUniqueEmails(emails);
+        System.out.println("Quantidade de e-mails únicos: " + resultado);
+    }
+}
